@@ -20,7 +20,7 @@ export default class RestaurantsDAO {
 
         let query;
         if (filters) {
-            if("name" in filters) {
+            if ("name" in filters) {
                 query = { $text: { $search: filters["name"] } }
             } else if ("cuisine" in filters) {
                 query = { "cuisine": { $eq: filters["cuisine"] } }
@@ -44,9 +44,13 @@ export default class RestaurantsDAO {
         try {
             const restaurantsList = await displayCursor.toArray()
             const totalNumRestaurants = await restaurants.countDocuments(query)
+      
+            return { restaurantsList, totalNumRestaurants }
         } catch (e) {
-            console.error(`Unable to convert cursor to array or problem countin documents, ${e}`)
-            return {restaurantsList: [], totalNumRestaurants: 0}
+        console.error(
+            `Unable to convert cursor to array or problem counting documents, ${e}`,
+        )
+        return { restaurantsList: [], totalNumRestaurants: 0 }
         }
     }
 }
