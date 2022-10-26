@@ -18,16 +18,14 @@ export default class RestaurantsDAO {
         restaurantsPerPage = 20
     } = {}) {
 
-        let query;
+        let query
         if (filters) {
             if ("name" in filters) {
                 query = { $text: { $search: filters["name"] } }
             } else if ("cuisine" in filters) {
                 query = { "cuisine": { $eq: filters["cuisine"] } }
             } else if ("zipcode" in filters) {
-                query = { "address.zipcode": { eq: filters["zipcode"] } }
-            } else if ("name" in filters) {
-                query = { "name": { eq: filters["name"] } }
+                query = { "address.zipcode": { $eq: filters["zipcode"] } }
             }
         }
 
